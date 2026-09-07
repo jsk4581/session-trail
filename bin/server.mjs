@@ -1,4 +1,4 @@
-// sessiontrail viewer server: zero-dependency node:http.
+// session-trail viewer server: zero-dependency node:http.
 // Serves the static viewer plus token-gated data endpoints:
 //   GET /api/graph            -> reduced timeline graph (paths already relative)
 //   GET /api/file?path=<rel>  -> artifact file preview (allowlisted, 1MB cap)
@@ -26,7 +26,7 @@ const MIME = {
 };
 
 export function startServer({ project, host = "127.0.0.1", port = 0, fixtureFile = null }) {
-  const token = process.env.SESSIONTRAIL_TOKEN || crypto.randomBytes(16).toString("hex");
+  const token = process.env.SESSION_TRAIL_TOKEN || crypto.randomBytes(16).toString("hex");
 
   const loadGraph = () => {
     if (fixtureFile) {
@@ -69,7 +69,7 @@ export function startServer({ project, host = "127.0.0.1", port = 0, fixtureFile
     const p = url.pathname;
 
     if (p.startsWith("/api/")) {
-      const supplied = url.searchParams.get("t") || req.headers["x-sessiontrail-token"];
+      const supplied = url.searchParams.get("t") || req.headers["x-session-trail-token"];
       if (supplied !== token) {
         return send(res, 401, "application/json", JSON.stringify({ error: "unauthorized" }));
       }

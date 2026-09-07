@@ -1,5 +1,5 @@
-# sessiontrail's own timeline data (when developing sessiontrail with sessiontrail)
-.sessiontrail/
+# session-trail's own timeline data (when developing session-trail with session-trail)
+.session-trail/
 
 node_modules/
 *.log

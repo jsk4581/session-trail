@@ -1,5 +1,5 @@
 ---
-description: Open the sessiontrail timeline viewer for this project
+description: Open the session-trail timeline viewer for this project
 allowed-tools: Bash(bash "${CLAUDE_PLUGIN_ROOT}/scripts/launch.sh" *)
 disable-model-invocation: true
 ---

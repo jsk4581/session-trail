@@ -102,11 +102,11 @@ test("reduce: sorts by ts, not file order", () => {
 // ---------- store.mjs ----------
 
 test("store: append/read/tail roundtrip, corrupt lines skipped", () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "sessiontrail-test-"));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "session-trail-test-"));
   try {
     appendEvent(tmp, { type: "session", sid: "x1", source: "startup" });
     appendEvent(tmp, { type: "touch", sid: "x1", path: "a.txt", verb: "create" });
-    fs.appendFileSync(path.join(tmp, ".sessiontrail", "events.jsonl"), "{broken json\n");
+    fs.appendFileSync(path.join(tmp, ".session-trail", "events.jsonl"), "{broken json\n");
     appendEvent(tmp, { type: "session_end", sid: "x1", reason: "exit" });
 
     const all = readEvents(tmp);
@@ -122,23 +122,23 @@ test("store: append/read/tail roundtrip, corrupt lines skipped", () => {
   }
 });
 
-test("store: relativizePath guards project boundary and .sessiontrail", () => {
+test("store: relativizePath guards project boundary and .session-trail", () => {
   const proj = "/tmp/proj";
   assert.equal(relativizePath(proj, "/tmp/proj/src/a.ts"), "src/a.ts");
   assert.equal(relativizePath(proj, "/tmp/other/a.ts"), null);
-  assert.equal(relativizePath(proj, "/tmp/proj/.sessiontrail/events.jsonl"), null);
+  assert.equal(relativizePath(proj, "/tmp/proj/.session-trail/events.jsonl"), null);
   assert.equal(relativizePath(proj, null), null);
 });
 
 test("store: markers + newestSessionId", () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "sessiontrail-test-"));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "session-trail-test-"));
   try {
     writeMarker(tmp, "aaa", { seen: true, titled: false });
     const m = readMarker(tmp, "aaa");
     assert.equal(m.seen, true);
     assert.equal(readMarker(tmp, "zzz"), null);
     writeMarker(tmp, "bbb", { seen: true, titled: false });
-    fs.utimesSync(path.join(tmp, ".sessiontrail", "sessions", "bbb.json"), new Date(), new Date(Date.now() + 5000));
+    fs.utimesSync(path.join(tmp, ".session-trail", "sessions", "bbb.json"), new Date(), new Date(Date.now() + 5000));
     assert.equal(newestSessionId(tmp), "bbb");
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
@@ -160,9 +160,9 @@ test("store: milestone ids sortable and unique-ish", () => {
 test("protocol: text is bounded and contains the CLI heredoc + digest", () => {
   const recent = recentMilestones(fixtureEvents, 10);
   assert.equal(recent.length, 4); // m-5 is auto -> excluded
-  const text = buildProtocol({ cliPath: "/opt/plug/bin/sessiontrail.mjs", recent });
-  assert.ok(text.includes('sessiontrail:sessiontrail-scribe'));
-  assert.ok(text.includes('cli: /opt/plug/bin/sessiontrail.mjs'));
+  const text = buildProtocol({ cliPath: "/opt/plug/bin/session-trail.mjs", recent });
+  assert.ok(text.includes('session-trail:session-trail-scribe'));
+  assert.ok(text.includes('cli: /opt/plug/bin/session-trail.mjs'));
   assert.ok(text.includes("m-4"));
   assert.ok(text.length < 1900, `protocol too long: ${text.length}`);
 });

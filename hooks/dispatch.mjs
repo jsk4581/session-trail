@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// sessiontrail hook dispatcher: one script for all events.
+// session-trail hook dispatcher: one script for all events.
 // Invariants: always exits 0; only SessionStart writes to stdout
 // (stray stdout on other events would pollute the model's context).
 
@@ -66,7 +66,7 @@ function onSessionStart(payload) {
   if (!project || !payload.session_id) return;
   ensureSession(project, payload, payload.source || "startup");
 
-  const cliPath = path.resolve(here, "..", "bin", "sessiontrail.mjs");
+  const cliPath = path.resolve(here, "..", "bin", "session-trail.mjs");
   const recent = recentMilestones(tailEvents(project), 10);
   const text = buildProtocol({ cliPath, recent });
   process.stdout.write(
@@ -102,7 +102,7 @@ function onPostToolUse(payload) {
   const input = payload.tool_input || {};
   const abs = input.file_path || input.notebook_path;
   const rel = relativizePath(project, abs);
-  if (!rel) return; // outside project, or under .sessiontrail/
+  if (!rel) return; // outside project, or under .session-trail/
 
   ensureSession(project, payload);
 

@@ -1,11 +1,11 @@
 {
-  "name": "sessiontrail",
-  "displayName": "sessiontrail",
+  "name": "session-trail",
+  "displayName": "session-trail",
   "version": "0.1.0",
   "description": "Records your project's development history as an interactive left-to-right timeline: session lanes, decision branches, and merges judged by the LLM, not git.",
   "author": { "name": "jsk4581", "url": "https://github.com/jsk4581" },
-  "homepage": "https://github.com/jsk4581/sessiontrail",
-  "repository": "https://github.com/jsk4581/sessiontrail",
+  "homepage": "https://github.com/jsk4581/session-trail",
+  "repository": "https://github.com/jsk4581/session-trail",
   "license": "MIT",
   "keywords": ["timeline", "memory", "history", "visualization", "decisions"]
 }

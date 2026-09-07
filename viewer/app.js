@@ -1,4 +1,4 @@
-/* sessiontrail timeline viewer: vanilla JS + SVG, no build step. */
+/* session-trail timeline viewer: vanilla JS + SVG, no build step. */
 "use strict";
 
 // ---------- constants ----------
@@ -53,22 +53,22 @@ init();
 
 async function init() {
   const params = new URLSearchParams(location.search);
-  state.token = params.get("t") || sessionStorage.getItem("sessiontrail-token");
+  state.token = params.get("t") || sessionStorage.getItem("session-trail-token");
   if (params.get("t")) {
-    sessionStorage.setItem("sessiontrail-token", params.get("t"));
+    sessionStorage.setItem("session-trail-token", params.get("t"));
     history.replaceState(null, "", location.pathname); // keep token out of the URL bar
   }
 
   let graph;
   try {
-    const res = await fetch("/api/graph", { headers: { "X-Sessiontrail-Token": state.token || "" } });
+    const res = await fetch("/api/graph", { headers: { "X-Session-Trail-Token": state.token || "" } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     graph = await res.json();
   } catch (e) {
     $("#empty-state").hidden = false;
     $("#empty-state").querySelector("p").textContent = "Could not load timeline.";
     $("#empty-state").querySelector(".sub").textContent =
-      "Open the viewer through the URL printed by /sessiontrail:view (it carries the access token). " + e.message;
+      "Open the viewer through the URL printed by /session-trail:view (it carries the access token). " + e.message;
     return;
   }
 
@@ -583,7 +583,7 @@ async function previewFile(relPath) {
   pre.textContent = "loading…";
   try {
     const res = await fetch(`/api/file?path=${encodeURIComponent(relPath)}`, {
-      headers: { "X-Sessiontrail-Token": state.token || "" },
+      headers: { "X-Session-Trail-Token": state.token || "" },
     });
     if (!res.ok) throw new Error((await res.json()).error || `HTTP ${res.status}`);
     const text = await res.text();

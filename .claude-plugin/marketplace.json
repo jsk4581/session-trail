@@ -1,10 +1,10 @@
 {
-  "name": "sessiontrail",
+  "name": "session-trail",
   "owner": { "name": "jsk4581", "url": "https://github.com/jsk4581" },
-  "description": "sessiontrail: project development-history timeline for Claude Code.",
+  "description": "session-trail: project development-history timeline for Claude Code.",
   "plugins": [
     {
-      "name": "sessiontrail",
+      "name": "session-trail",
       "source": "./",
       "description": "Records your project's development history as an interactive left-to-right timeline with session lanes and LLM-judged decision branches.",
       "version": "0.1.0",

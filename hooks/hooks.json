@@ -1,5 +1,5 @@
 {
-  "description": "sessiontrail: records session lanes, artifact touches, and milestones into <project>/.sessiontrail/events.jsonl",
+  "description": "session-trail: records session lanes, artifact touches, and milestones into <project>/.session-trail/events.jsonl",
   "hooks": {
     "SessionStart": [
       {

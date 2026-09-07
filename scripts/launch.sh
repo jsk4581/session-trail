@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# sessiontrail viewer launcher: starts the server in the background and prints one
+# session-trail viewer launcher: starts the server in the background and prints one
 # greppable READY line. Always exits 0; failures surface as an ERROR line.
 # A running server is reused only while its code fingerprint matches the
 # plugin's current source; otherwise it is restarted (same port when free).
@@ -7,9 +7,9 @@ set -u
 
 ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 PROJECT="${1:-${CLAUDE_PROJECT_DIR:-$PWD}}"
-HOST="${2:-${SESSIONTRAIL_HOST:-127.0.0.1}}"
+HOST="${2:-${SESSION_TRAIL_HOST:-127.0.0.1}}"
 
-DATA_DIR="$PROJECT/.sessiontrail"
+DATA_DIR="$PROJECT/.session-trail"
 mkdir -p "$DATA_DIR" 2>/dev/null || { echo "ERROR cannot create $DATA_DIR"; exit 0; }
 LOG="$DATA_DIR/server.log"
 PIDFILE="$DATA_DIR/server.pid"
@@ -35,7 +35,7 @@ fi
 
 start() {
   : > "$LOG"
-  nohup node "$ROOT/bin/sessiontrail.mjs" serve --project "$PROJECT" --host "$HOST" --port "$1" >> "$LOG" 2>&1 &
+  nohup node "$ROOT/bin/session-trail.mjs" serve --project "$PROJECT" --host "$HOST" --port "$1" >> "$LOG" 2>&1 &
   echo $! > "$PIDFILE"
   for _ in $(seq 1 50); do
     if READY_LINE="$(grep -m1 '^READY ' "$LOG" 2>/dev/null)" && [ -n "$READY_LINE" ]; then

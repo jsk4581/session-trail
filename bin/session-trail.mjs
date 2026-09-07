@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// sessiontrail CLI: add | recent | build | serve | doctor
+// session-trail CLI: add | recent | build | serve | doctor
 // `add` reads milestone JSON from stdin (heredoc-friendly) and always exits 0,
 // printing {ok:true,id} or {ok:false,error:"..."} so a calling agent can react.
 
@@ -46,11 +46,11 @@ switch (cmd) {
     break;
   default:
     print(
-      "sessiontrail: project development-history timeline\n" +
-        "usage: sessiontrail.mjs <add|recent|build|serve|doctor> [--project DIR] [--sid ID]\n" +
+      "session-trail: project development-history timeline\n" +
+        "usage: session-trail.mjs <add|recent|build|serve|doctor> [--project DIR] [--sid ID]\n" +
         "  add     read milestone JSON from stdin (or --json '...') and append it\n" +
         "  recent  list recent milestone nodes (merge targets)  [--n 10]\n" +
-        "  build   force-rebuild .sessiontrail/graph.json\n" +
+        "  build   force-rebuild .session-trail/graph.json\n" +
         "  serve   start the timeline viewer  [--host 127.0.0.1] [--port 0] [--fixture]\n" +
         "  doctor  sanity-check the installation"
     );
@@ -153,7 +153,7 @@ function cmdDoctor() {
     fs.accessSync(dataDir(project), fs.constants.W_OK);
     writable = true;
   } catch {}
-  checks.push([writable, `.sessiontrail/ writable at ${dataDir(project)}`]);
+  checks.push([writable, `.session-trail/ writable at ${dataDir(project)}`]);
   const eventsFile = path.join(dataDir(project), EVENTS_FILE);
   const n = fs.existsSync(eventsFile) ? readEvents(project).length : 0;
   checks.push([true, `${n} event(s) recorded`]);
