@@ -8,6 +8,7 @@ set -u
 ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 PROJECT="${1:-${CLAUDE_PROJECT_DIR:-$PWD}}"
 HOST="${2:-${SESSION_TRAIL_HOST:-127.0.0.1}}"
+HOST_EXPLICIT=0; [ -n "${2:-}${SESSION_TRAIL_HOST:-}" ] && HOST_EXPLICIT=1
 
 DATA_DIR="$PROJECT/.session-trail"
 mkdir -p "$DATA_DIR" 2>/dev/null || { echo "ERROR cannot create $DATA_DIR"; exit 0; }
@@ -24,9 +25,14 @@ if [ -f "$PIDFILE" ] && [ -f "$INFOFILE" ]; then
   INFO="$(cat "$INFOFILE" 2>/dev/null)"
   if [ -n "$PID" ] && kill -0 "$PID" 2>/dev/null; then
     case "$INFO" in
-      *" code=$CODE"*) echo "$INFO"; exit 0 ;;   # same code: reuse
+      *" code=$CODE"*)
+        case "$INFO" in
+          *"url=http://$HOST:"*) echo "$INFO"; exit 0 ;;   # same code, same host: reuse
+        esac
+        # the default host is a fallback, not a demand: keep a server bound elsewhere
+        [ "$HOST_EXPLICIT" = 0 ] && { echo "$INFO"; exit 0; } ;;
     esac
-    # stale code: restart, keeping the old port if possible
+    # stale code or explicitly different host: restart, keeping the old port if possible
     WANT_PORT="$(printf '%s\n' "$INFO" | sed -n 's/.*port=\([0-9]*\).*/\1/p')"
     kill "$PID" 2>/dev/null
     for _ in $(seq 1 20); do kill -0 "$PID" 2>/dev/null || break; sleep 0.1; done

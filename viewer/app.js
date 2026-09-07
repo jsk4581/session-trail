@@ -45,6 +45,7 @@ const layers = {
   lanes: $("#layer-lanes"),
   merges: $("#layer-merges"),
   nodes: $("#layer-nodes"),
+  prompts: $("#layer-prompts"),
 };
 
 // ---------- boot ----------
@@ -161,10 +162,17 @@ function buildScene(graph) {
     const lane = laneById.get(p.laneId);
     if (!lane) continue;
     const color = PALETTE[lane.color % PALETTE.length];
-    const g = el("g", { class: "prompt" }, layers.lanes);
+    // Drawn above nodes. When a tick coincides with a milestone node it switches to
+    // two stubs protruding beyond the node shape, so it stays visible and clickable
+    // without stealing the node's own click (see relayout).
+    const g = el("g", { class: "prompt" }, layers.prompts);
     g.style.color = color;
-    el("rect", { x: -8, y: -14, width: 16, height: 28, fill: "transparent" }, g); // generous hit area
-    el("line", { class: "prompt-tick", x1: 0, y1: -8, x2: 0, y2: 8, stroke: color }, g);
+    el("rect", { class: "hit-mid", x: -8, y: -14, width: 16, height: 28, fill: "transparent" }, g);
+    el("line", { class: "prompt-tick tick-main", x1: 0, y1: -8, x2: 0, y2: 8, stroke: color }, g);
+    el("rect", { class: "stub", x: -6, y: -17, width: 12, height: 8, fill: "transparent" }, g);
+    el("rect", { class: "stub", x: -6, y: 9, width: 12, height: 8, fill: "transparent" }, g);
+    el("line", { class: "prompt-tick stub", x1: 0, y1: -16, x2: 0, y2: -10, stroke: color }, g);
+    el("line", { class: "prompt-tick stub", x1: 0, y1: 10, x2: 0, y2: 16, stroke: color }, g);
     el("title", {}, g).textContent = `${fmtDate(p.ts, true)}  ${p.text}`;
     g.addEventListener("click", (ev) => {
       ev.stopPropagation();
@@ -308,8 +316,17 @@ function relayout() {
     it.g.setAttribute("transform", `translate(${x},${y})`);
   }
 
+  // node x positions per lane, to detect prompt ticks sitting on a node
+  const nodeXs = new Map();
+  for (const it of state.items.nodes) {
+    if (!nodeXs.has(it.node.laneId)) nodeXs.set(it.node.laneId, []);
+    nodeXs.get(it.node.laneId).push(X(+new Date(it.node.ts)));
+  }
   for (const it of state.items.prompts) {
-    it.g.setAttribute("transform", `translate(${X(+new Date(it.p.ts))},${Y(yOfSlot(it.lane.slot))})`);
+    const x = X(+new Date(it.p.ts));
+    it.g.setAttribute("transform", `translate(${x},${Y(yOfSlot(it.lane.slot))})`);
+    const onNode = (nodeXs.get(it.p.laneId) || []).some((nx) => Math.abs(nx - x) < 11);
+    it.g.classList.toggle("on-node", onNode);
   }
 
   const laneById = new Map(state.graph.lanes.map((l) => [l.laneId, l]));

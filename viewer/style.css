@@ -157,6 +157,9 @@ body {
 .prompt-tick { stroke-width: 2; stroke-linecap: round; opacity: 0.5; transition: opacity 0.1s; }
 .prompt:hover .prompt-tick { opacity: 1; stroke-width: 3; }
 .prompt.selected .prompt-tick { opacity: 1; stroke-width: 3; filter: drop-shadow(0 0 4px currentColor); }
+.prompt .stub { display: none; }
+.prompt.on-node .stub { display: block; }
+.prompt.on-node .tick-main, .prompt.on-node .hit-mid { display: none; }
 .prompt.dimmed { display: none; }
 .chip-dim.active { color: var(--text-dim); }
 
