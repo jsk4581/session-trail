@@ -1,0 +1,28 @@
+{"v":1,"ts":"2026-08-01T09:00:00.000Z","type":"session","sid":"sid1","source":"startup","transcript":"/home/user/.claude/projects/-home-user-proj/sid1.jsonl"}
+{"v":1,"ts":"2026-08-01T09:01:00.000Z","type":"title","sid":"sid1","title":"Bootstrap project"}
+{"v":1,"ts":"2026-08-01T09:05:00.000Z","type":"touch","sid":"sid1","path":"src/index.ts","verb":"create","tool":"Write"}
+{"v":1,"ts":"2026-08-01T09:06:00.000Z","type":"touch","sid":"sid1","path":"src/index.ts","verb":"edit","tool":"Edit"}
+{"v":1,"ts":"2026-08-01T09:07:00.000Z","type":"touch","sid":"sid1","path":"package.json","verb":"create","tool":"Write"}
+{"v":1,"ts":"2026-08-01T09:10:00.000Z","type":"milestone","id":"m-1","sid":"sid1","kind":"decision","title":"Choose TypeScript + esbuild","what":"Set up TS with esbuild bundling.","why":"Fast builds mattered most; rejected webpack (slow cold starts) and plain JS (no types).","how":"tsconfig strict mode; esbuild script wired into package.json.","merges":[]}
+{"v":1,"ts":"2026-08-01T09:30:00.000Z","type":"session","sid":"sid2","source":"startup"}
+{"v":1,"ts":"2026-08-01T09:31:00.000Z","type":"title","sid":"sid2","title":"Fix CI pipeline"}
+{"v":1,"ts":"2026-08-01T09:40:00.000Z","type":"touch","sid":"sid2","path":".github/workflows/ci.yml","verb":"edit","tool":"Edit"}
+{"v":1,"ts":"2026-08-01T09:50:00.000Z","type":"milestone","id":"m-2","sid":"sid2","kind":"merge","title":"Align CI with esbuild setup","what":"CI now builds with esbuild, matching the build decision.","why":"CI still used tsc, drifting from m-1; alternatives (keep tsc for typecheck only) deferred.","how":"Swapped build step in ci.yml.","merges":["m-1"]}
+{"v":1,"ts":"2026-08-01T10:00:00.000Z","type":"touch","sid":"sid1","path":"src/app.ts","verb":"create","tool":"Write"}
+{"v":1,"ts":"2026-08-01T10:20:00.000Z","type":"milestone","id":"m-3","sid":"sid1","kind":"action","title":"Land app skeleton","what":"App entry point and router skeleton landed.","why":"Foundation needed before features; rejected starting from a template repo.","how":"src/app.ts with a router stub.","merges":[]}
+{"v":1,"ts":"2026-08-01T10:30:00.000Z","type":"session_end","sid":"sid1","reason":"exit"}
+{"v":1,"ts":"2026-08-01T11:00:00.000Z","type":"session_end","sid":"sid2","reason":"exit"}
+{"v":1,"ts":"2026-08-04T14:00:00.000Z","type":"session","sid":"sid3","source":"startup"}
+{"v":1,"ts":"2026-08-04T14:01:00.000Z","type":"title","sid":"sid3","title":"Add auth"}
+{"v":1,"ts":"2026-08-04T14:10:00.000Z","type":"touch","sid":"sid3","path":"src/auth.ts","verb":"create","tool":"Write"}
+{"v":1,"ts":"2026-08-04T14:20:00.000Z","type":"milestone","id":"m-4","sid":"sid3","kind":"action","title":"Implement session auth","what":"Cookie-based session auth middleware.","why":"Rejected JWT: revocation complexity outweighed statelessness for this app.","how":"src/auth.ts middleware, builds on the app skeleton from m-3.","merges":["m-3","m-nonexistent"]}
+{"v":1,"ts":"2026-08-04T14:25:00.000Z","type":"touch","sid":"sid3","path":"src/auth.test.ts","verb":"create","tool":"Write"}
+{"v":1,"ts":"2026-08-04T14:30:00.000Z","type":"session","sid":"sid4","source":"startup"}
+{"v":1,"ts":"2026-08-04T14:31:00.000Z","type":"title","sid":"sid4","title":"Docs pass"}
+{"v":1,"ts":"2026-08-04T14:40:00.000Z","type":"touch","sid":"sid4","path":"README.md","verb":"edit","tool":"Edit"}
+{"v":1,"ts":"2026-08-04T14:50:00.000Z","type":"milestone","id":"m-5","sid":"sid4","kind":"action","title":"Docs pass","what":"Auto-recorded: 1 file touched.","why":"","how":"","auto":true,"merges":[]}
+{"v":1,"ts":"2026-08-04T14:50:01.000Z","type":"session_end","sid":"sid4","reason":"exit"}
+{"v":1,"ts":"2026-08-04T15:00:00.000Z","type":"session_end","sid":"sid3","reason":"exit"}
+{"v":1,"ts":"2026-08-01T09:02:00.000Z","type":"prompt","sid":"sid1","pid":"pp1","text":"set up the project with TypeScript"}
+{"v":1,"ts":"2026-08-01T09:15:00.000Z","type":"prompt","sid":"sid1","pid":"pp2","text":"now add the app skeleton"}
+{"v":1,"ts":"2026-08-01T09:32:00.000Z","type":"prompt","sid":"sid2","pid":"pp3","text":"CI is red, fix it"}

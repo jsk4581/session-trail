@@ -1,0 +1,17 @@
+{
+  "name": "sessiontrail",
+  "owner": { "name": "jsk4581", "url": "https://github.com/jsk4581" },
+  "description": "sessiontrail: project development-history timeline for Claude Code.",
+  "plugins": [
+    {
+      "name": "sessiontrail",
+      "source": "./",
+      "description": "Records your project's development history as an interactive left-to-right timeline with session lanes and LLM-judged decision branches.",
+      "version": "0.1.0",
+      "author": { "name": "jsk4581" },
+      "license": "MIT",
+      "keywords": ["timeline", "memory", "history", "visualization"],
+      "category": "workflow"
+    }
+  ]
+}

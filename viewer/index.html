@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>sessiontrail</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='6' cy='16' r='4' fill='%2360dbc4'/><rect x='10' y='14.5' width='12' height='3' rx='1.5' fill='%2360dbc4'/><circle cx='26' cy='16' r='4' fill='%23b18cff'/></svg>" />
+</head>
+<body>
+  <header id="topbar">
+    <div id="brand">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="6" cy="16" r="4" fill="#60dbc4"/>
+        <rect x="10" y="14.5" width="12" height="3" rx="1.5" fill="#60dbc4"/>
+        <circle cx="26" cy="16" r="4" fill="#b18cff"/>
+      </svg>
+      <span class="brand-name">sessiontrail</span>
+      <span id="project-name"></span>
+    </div>
+    <div id="stats"></div>
+    <div id="filters">
+      <button class="chip active" data-kind="decision">decision</button>
+      <button class="chip active" data-kind="action">action</button>
+      <button class="chip active" data-kind="merge">merge</button>
+      <button class="chip active" data-kind="auto">auto</button>
+      <button class="chip active chip-dim" data-kind="prompts">prompts</button>
+    </div>
+    <div id="controls">
+      <button id="fit-btn" title="Fit timeline to view (double-click canvas also works)">Fit</button>
+    </div>
+  </header>
+
+  <main id="canvas-wrap">
+    <svg id="canvas" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="context-stroke" />
+        </marker>
+      </defs>
+      <g id="root">
+        <g id="layer-ghost"></g>
+        <g id="layer-axis"></g>
+        <g id="layer-lanes"></g>
+        <g id="layer-merges"></g>
+        <g id="layer-nodes"></g>
+      </g>
+    </svg>
+    <div id="hint">scroll to zoom · drag to pan · click a node to open</div>
+    <div id="empty-state" hidden>
+      <p>No timeline yet.</p>
+      <p class="sub">Work in a Claude Code session with the sessiontrail plugin enabled: sessions, decisions, and artifacts will appear here.</p>
+    </div>
+  </main>
+
+  <aside id="detail" hidden>
+    <button id="detail-close" title="Close (Esc)">×</button>
+    <div id="detail-kind" class="badge"></div>
+    <h2 id="detail-title"></h2>
+    <div id="detail-meta"></div>
+    <section class="detail-sec" id="sec-what"><h3>What</h3><p></p></section>
+    <section class="detail-sec" id="sec-why"><h3>Why</h3><p></p></section>
+    <section class="detail-sec" id="sec-how"><h3>How</h3><p></p></section>
+    <section class="detail-sec" id="sec-artifacts">
+      <h3>Artifacts <span id="artifact-count"></span></h3>
+      <ul id="artifact-list"></ul>
+      <pre id="file-preview" hidden></pre>
+    </section>
+    <section class="detail-sec" id="sec-session">
+      <h3>Session</h3>
+      <div class="mono-row" id="session-id" title="Click to copy the session id"></div>
+      <div class="mono-row" id="session-transcript" title="Click to copy the conversation log path"></div>
+    </section>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
