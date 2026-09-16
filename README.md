@@ -39,7 +39,9 @@ Code-graph tools remember what the code looks like right now: functions, calls, 
 - **Judgment is recorded, not just parsed.** A code graph is built by parsing; a model only summarizes it. Here the agent doing the work decides what mattered, and a lightweight scribe subagent writes it down in the background, so the conversation is never slowed.
 - **It does not interrupt.** Nothing is pushed into the context on every edit. The agent pulls from the timeline only when it is about to undo an existing choice; ordinary turns cost nothing.
 - **Plain text, committable, dependency-free.** One JSONL file that diffs, reviews, and shares through git. No binary database, no daemon, no indexer, no API key, no npm packages.
+- **A timeline, not a graph of the code.** Other tools visualize structure, a map of what depends on what. It shows how the code is shaped, not how it got there. session-trail draws time instead: one lane per session, a node per decision, merges where a later session picks up an earlier line. Read left to right, it tells the story of the project.
 - **Built for people first.** The timeline viewer exists so a human can skim a project's history. The agent-facing queries sit on top of that, not the other way round.
+- **Alignment you can inspect.** The most consequential thing an agent does is not editing a file, it is deciding that something mattered and why. The timeline is where human intent and agent judgment get reconciled.
 
 ## Install
 
