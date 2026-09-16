@@ -1,5 +1,14 @@
 # session-trail
 
+[![CI](https://img.shields.io/github/actions/workflow/status/jsk4581/session-trail/test.yml?branch=main&label=CI)](https://github.com/jsk4581/session-trail/actions/workflows/test.yml)
+[![Tests](https://img.shields.io/badge/tests-20_passing-brightgreen)](test/run.mjs)
+[![Platform](https://img.shields.io/badge/Linux_%7C_macOS_%7C_Windows-tested-lightgrey)](https://github.com/jsk4581/session-trail/actions/workflows/test.yml)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![Dependencies](https://img.shields.io/badge/dependencies-0-blue)](#install)
+[![Claude Code plugin](https://img.shields.io/badge/Claude_Code-plugin-D97757)](#install)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/jsk4581/session-trail?style=flat&logo=github)](https://github.com/jsk4581/session-trail/stargazers)
+
 **Your project's development history, as a timeline.**
 
 session-trail is a Claude Code plugin that records what actually happened in a project (sessions, decisions, completed work, and the files they touched) and renders it as an interactive left-to-right timeline.
