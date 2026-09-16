@@ -17,6 +17,7 @@ import {
   newestSessionId,
 } from "../lib/store.mjs";
 import { buildProtocol, recentMilestones } from "../lib/protocol.mjs";
+import { showNode, whyPath, search, recent } from "../lib/query.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const fixtureEvents = fs
@@ -177,4 +178,52 @@ test("reduce: prompts are a separate low-key series, not nodes or edges", () => 
   // prompts must not steal touch attribution
   const m1 = g.nodes.find((n) => n.id === "m-1");
   assert.equal(m1.artifacts.length, 2);
+});
+
+// ---------- query.mjs (read side) ----------
+
+test("query: showNode returns fields, provenance, artifacts, resolved merges", () => {
+  const n = showNode(fixtureEvents, "m-1");
+  assert.equal(n.kind, "decision");
+  assert.equal(n.session.sid, "sid1");
+  assert.equal(n.session.transcript, "/home/user/.claude/projects/-home-user-proj/sid1.jsonl");
+  assert.equal(n.artifacts.length, 2);
+  assert.deepEqual(n.merges, []);
+  assert.deepEqual(n.mergedBy, [{ id: "m-2", title: "Align CI with esbuild setup" }]);
+  assert.deepEqual(showNode(fixtureEvents, "m-2").merges, [{ id: "m-1", title: "Choose TypeScript + esbuild" }]);
+  assert.equal(showNode(fixtureEvents, "nope"), null);
+});
+
+test("query: whyPath finds milestones by file and by directory prefix", () => {
+  const byFile = whyPath(fixtureEvents, "src/index.ts");
+  assert.deepEqual(byFile.map((n) => n.id), ["m-1"]);
+  const byDir = whyPath(fixtureEvents, "src/");
+  assert.deepEqual(byDir.map((n) => n.id), ["m-1", "m-3", "m-4"]);
+  assert.equal(whyPath(fixtureEvents, "./src/index.ts").length, 1);
+  assert.equal(whyPath(fixtureEvents, "nowhere.ts").length, 0);
+});
+
+test("query: search covers milestone fields and prompts, newest first, snippets", () => {
+  const hits = search(fixtureEvents, "esbuild");
+  assert.ok(hits.length >= 2);
+  assert.ok(hits.some((h) => h.type === "milestone" && h.id === "m-1"));
+  assert.ok(hits.every((h) => h.snippet.toLowerCase().includes("esbuild")));
+  const prompts = search(fixtureEvents, "ci is red");
+  assert.equal(prompts.length, 1);
+  assert.equal(prompts[0].type, "prompt");
+  assert.equal(prompts[0].sid, "sid2");
+  assert.deepEqual(search(fixtureEvents, "  "), []);
+  assert.ok(String(search(fixtureEvents, "app")[0].ts) >= String(search(fixtureEvents, "app").at(-1).ts));
+});
+
+test("query: recent scopes to last session / sid prefix and skips auto nodes", () => {
+  const all = recent(fixtureEvents, { n: 10 });
+  assert.deepEqual(all.nodes.map((n) => n.id), ["m-1", "m-2", "m-3", "m-4"]); // m-5 auto excluded
+  const last = recent(fixtureEvents, { session: "last" });
+  assert.equal(last.lane.sid, "sid3"); // sid4 only has an auto node
+  assert.deepEqual(last.nodes.map((n) => n.id), ["m-4"]);
+  const s1 = recent(fixtureEvents, { session: "sid1" });
+  assert.deepEqual(s1.nodes.map((n) => n.id), ["m-1", "m-3"]);
+  assert.equal(recent(fixtureEvents, { session: "zzz" }).lane, null);
+  assert.equal(recent(fixtureEvents, { session: "sid4", includeAuto: true }).nodes.length, 1);
 });
