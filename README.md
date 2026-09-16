@@ -28,6 +28,19 @@ Every node carries its **artifacts**: the files created or modified around that 
 
 ![detail panel](docs/detail-panel.png)
 
+## Why not a code graph?
+
+Code-graph tools remember what the code looks like right now: functions, calls, dependencies. session-trail remembers why it got that way: sessions, decisions, rejected alternatives, and the words that asked for them. The two answer different questions and run side by side in the same session without stepping on each other. What session-trail adds:
+
+- **Time is never erased.** A code graph aims to be current, so stale detection and rebuilds overwrite the past. session-trail is append-only: a decision that no longer matches the code stays, together with why it made sense at the time.
+- **Decisions are first-class data.** In a code graph, rationale lives in a hand-written note or a separate ADR file, if anywhere. Here a decision node requires a `why`, is asked for the rejected alternatives, and is bound automatically to its time, session, and touched files.
+- **Your own words survive.** Every user prompt is recorded verbatim, mechanically, independent of any model's judgment. "What exactly did I ask for back then" has an answer in the original wording.
+- **You can get back to the conversation.** Every node carries its session id and the path of the local transcript, so a person or another agent can open the exact dialogue a decision came from.
+- **Judgment is recorded, not just parsed.** A code graph is built by parsing; a model only summarizes it. Here the agent doing the work decides what mattered, and a lightweight scribe subagent writes it down in the background, so the conversation is never slowed.
+- **It does not interrupt.** Nothing is pushed into the context on every edit. The agent pulls from the timeline only when it is about to undo an existing choice; ordinary turns cost nothing.
+- **Plain text, committable, dependency-free.** One JSONL file that diffs, reviews, and shares through git. No binary database, no daemon, no indexer, no API key, no npm packages.
+- **Built for people first.** The timeline viewer exists so a human can skim a project's history. The agent-facing queries sit on top of that, not the other way round.
+
 ## Install
 
 ```
