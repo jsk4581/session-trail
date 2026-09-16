@@ -12,7 +12,7 @@ session-trail is a Claude Code plugin that records what actually happened in a p
 
 It looks like a git graph, but the branches and merges aren't git commands: they're **judgment calls recorded by the LLM as it works**. Each Claude Code session becomes a lane; significant decisions and actions become nodes on that lane; work that continues an earlier session's line becomes a merge edge across lanes.
 
-![demo](docs/demo.gif)
+![timeline](docs/timeline.png)
 
 ## How it works
 
