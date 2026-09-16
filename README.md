@@ -61,10 +61,6 @@ node bin/session-trail.mjs build     # force-rebuild the graph cache
 node bin/session-trail.mjs doctor    # sanity-check the installation
 ```
 
-### Asking the timeline
-
-`show`, `why` and `search` are the read side, meant for agents as much as for people. The session-start briefing tells Claude to use them in exactly one situation: right before reversing or restructuring something that already exists and looks deliberate. Nothing is pushed into the conversation on its own, so a turn that does not touch an existing decision costs no context. If you see the agent querying the timeline for routine edits, that is a bug in the briefing, not intended behaviour.
-
 ## Data & privacy
 
 All data lives in **`.session-trail/` inside your project**: a single append-only `events.jsonl` plus a derived graph cache. Nothing leaves your machine.
