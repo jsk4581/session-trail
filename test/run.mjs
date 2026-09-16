@@ -165,7 +165,8 @@ test("protocol: text is bounded and contains the CLI heredoc + digest", () => {
   assert.ok(text.includes('session-trail:session-trail-scribe'));
   assert.ok(text.includes('cli: /opt/plug/bin/session-trail.mjs'));
   assert.ok(text.includes("m-4"));
-  assert.ok(text.length < 1900, `protocol too long: ${text.length}`);
+  assert.ok(text.includes("why <path>") && text.includes("Most turns need no query"));
+  assert.ok(text.length < 2400, `protocol too long: ${text.length}`);
 });
 
 test("reduce: prompts are a separate low-key series, not nodes or edges", () => {

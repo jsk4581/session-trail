@@ -46,11 +46,18 @@ Everything also works without Claude Code:
 
 ```bash
 node bin/session-trail.mjs add       # append a milestone (JSON on stdin)
-node bin/session-trail.mjs recent    # list recent nodes (merge targets)
+node bin/session-trail.mjs recent    # list recent nodes  [--n 10] [--session last|<sid>]
+node bin/session-trail.mjs show <id> # one node in full: what/why/how, artifacts, session, merges
+node bin/session-trail.mjs why <path>     # milestones that touched a file or directory
+node bin/session-trail.mjs search <text>  # search milestones and recorded prompts
 node bin/session-trail.mjs serve     # start the viewer [--host] [--port]
 node bin/session-trail.mjs build     # force-rebuild the graph cache
 node bin/session-trail.mjs doctor    # sanity-check the installation
 ```
+
+### Asking the timeline
+
+`show`, `why` and `search` are the read side, meant for agents as much as for people. The session-start briefing tells Claude to use them in exactly one situation: right before reversing or restructuring something that already exists and looks deliberate. Nothing is pushed into the conversation on its own, so a turn that does not touch an existing decision costs no context. If you see the agent querying the timeline for routine edits, that is a bug in the briefing, not intended behaviour.
 
 ## Data & privacy
 
