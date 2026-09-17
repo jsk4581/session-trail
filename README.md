@@ -33,13 +33,14 @@ Every node carries its **artifacts**: the files created or modified around that 
 Code-graph tools remember what the code looks like right now: functions, calls, dependencies. session-trail remembers why it got that way: sessions, decisions, rejected alternatives, and the words that asked for them. The two answer different questions and run side by side in the same session without stepping on each other. What session-trail adds:
 
 - **A timeline, not a graph of the code.** Other tools visualize structure, a map of what depends on what. It shows how the code is shaped, not how it got there. session-trail draws time instead: one lane per session, a node per decision, merges where a later session picks up an earlier line. Read left to right, it tells the story of the project.
+- **Many sessions, one picture.** Agent work spreads across sessions, and that spread is the hardest part to see. Each session is a lane; when a later one continues an earlier line, a curve joins the two. The time axis is linear inside a session and compressed across idle gaps, so a month with three active days fits on one screen.
 - **Time is never erased.** A code graph aims to be current, so stale detection and rebuilds overwrite the past. session-trail is append-only: a decision that no longer matches the code stays, together with why it made sense at the time.
 - **Decisions are first-class data.** A code graph is built by parsing; rationale lives in a hand-written note or a separate ADR file, if anywhere. Here the agent doing the work decides what mattered, and a Sonnet scribe subagent records it as a decision node that requires a `why`, is asked for the rejected alternatives, and is bound automatically to its time, session, and touched files.
 - **Your own words and the original conversation survive.** Every user prompt is recorded verbatim, mechanically, independent of any model's judgment, and every node carries its session id and the path of the local transcript. "What exactly did I ask for back then" has an answer in the original wording, and a person or another agent can open the exact dialogue a decision came from.
 - **It does not interrupt.** Nothing is pushed into the context on every edit. The agent pulls from the timeline only when it is about to undo an existing choice; ordinary turns cost nothing.
 - **Plain text, committable, dependency-free.** One JSONL file that diffs, reviews, and shares through git. No binary database, no daemon, no indexer, no API key, no npm packages.
-- **Built for people first.** The agent-facing queries sit on top of a viewer made for humans, not the other way round.
-- **Alignment you can inspect.** The most consequential thing an agent does is not editing a file, it is deciding that something mattered and why. The timeline is where human intent and agent judgment get reconciled.
+- **Built for people first.** The viewer is the product; the agent-facing queries sit on top of it. Working with an agent, the first thing you lose is context: the reasons, the sequence, the story. This keeps them where a person can see them.
+- **The same picture for the person and the agent.** You and the agent read the same history: you in the viewer weeks later or as a teammate joining, the agent at session start or before undoing something.
 
 ## Install
 
