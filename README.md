@@ -28,7 +28,7 @@ Every node carries its **artifacts**: the files created or modified around that 
 
 ![detail panel](docs/detail-panel.png)
 
-## Why not a code graph?
+## Why a timeline?
 
 Code-graph tools remember what the code looks like right now: functions, calls, dependencies. session-trail remembers why it got that way: sessions, decisions, rejected alternatives, and the words that asked for them. The two answer different questions and run side by side in the same session without stepping on each other. What session-trail adds:
 
