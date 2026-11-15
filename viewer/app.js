@@ -55,7 +55,8 @@ init();
 async function init() {
   const params = new URLSearchParams(location.search);
   state.token = params.get("t") || sessionStorage.getItem("session-trail-token");
-  if (params.get("t")) {
+  const focusId = params.get("node"); // deep link: ?node=<milestone id> opens that node
+  if (params.get("t") || focusId) {
     sessionStorage.setItem("session-trail-token", params.get("t"));
     history.replaceState(null, "", location.pathname); // keep token out of the URL bar
   }
@@ -86,6 +87,17 @@ async function init() {
   buildScene(graph);
   bindInteractions();
   fit();
+  if (focusId) focusNode(focusId);
+}
+
+/** Select a node by id and pan it to the horizontal centre (zoom from fit() is kept). */
+function focusNode(id) {
+  const it = state.items.nodes.find((x) => x.node.id === id);
+  if (!it) return;
+  const { width } = canvas.getBoundingClientRect();
+  state.panX += width / 2 - X(+new Date(it.node.ts));
+  relayout();
+  select(it.node, it.g);
 }
 
 // ---------- time scale (piecewise linear with compressed gaps) ----------

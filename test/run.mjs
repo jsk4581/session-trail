@@ -166,6 +166,7 @@ test("protocol: text is bounded and contains the CLI heredoc + digest", () => {
   assert.ok(text.includes('cli: /opt/plug/bin/session-trail.mjs'));
   assert.ok(text.includes("m-4"));
   assert.ok(text.includes("why <path>") && text.includes("Most turns need no query"));
+  assert.ok(text.includes("Pass the viewer link the scribe returns on to the user"), "protocol must ask for the viewer link");
   assert.ok(text.length < 2400, `protocol too long: ${text.length}`);
 });
 

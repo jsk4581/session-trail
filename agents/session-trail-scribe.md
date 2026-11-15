@@ -37,5 +37,12 @@ JSON
 ```
 The CLI prints `{"ok":true,"id":"m-..."}` on success. If it prints `{"ok":false,"error":...}`, fix the reported problem and run it once more. If it prints a `warning` about title length, shorten the title and re-run once.
 
+## Viewer link
+After a successful `add`, start or reuse the timeline viewer so the user can open the node in one click. The launcher lives next to the CLI:
+```bash
+bash "$(dirname "$(dirname "<cli>")")/scripts/launch.sh" "$PWD"
+```
+It prints a `READY ... url=<url> ...` line (or an `ERROR` line). Take the `url=` value and append `&node=<id>` with the id the CLI returned.
+
 ## Output
-Reply with one line: the node id and the title. Nothing else.
+Reply with one line: `<id> · <title> · <url>&node=<id>`. If the launcher printed no `READY` line, reply `<id> · <title>` and nothing else.
