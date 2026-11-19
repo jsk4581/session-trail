@@ -38,11 +38,11 @@ JSON
 The CLI prints `{"ok":true,"id":"m-..."}` on success. If it prints `{"ok":false,"error":...}`, fix the reported problem and run it once more. If it prints a `warning` about title length, shorten the title and re-run once.
 
 ## Viewer link
-After a successful `add`, start or reuse the timeline viewer so the user can open the node in one click. The launcher lives next to the CLI:
+After a successful `add`, start or reuse the timeline viewer so the user can open the node in one click. The launcher is `scripts/launch.sh` in the plugin root, two directories above the CLI path you were given. Run it as one plain command: the literal absolute path, no quotes, no variables, no `$(...)`, no arguments (it takes the project from the current directory). For example, with cli `/opt/session-trail/bin/session-trail.mjs`:
 ```bash
-bash "$(dirname "$(dirname "<cli>")")/scripts/launch.sh" "$PWD"
+bash /opt/session-trail/scripts/launch.sh
 ```
-It prints a `READY ... url=<url> ...` line (or an `ERROR` line). Take the `url=` value and append `&node=<id>` with the id the CLI returned.
+Quotes, variables or substitutions make the call fail permission checks, so never add them. It prints a `READY ... url=<url> ...` line (or an `ERROR` line). Take the `url=` value and append `&node=<id>` with the id the CLI returned.
 
 ## Output
 Reply with one line: `<id> · <title> · <url>&node=<id>`. If the launcher printed no `READY` line, reply `<id> · <title>` and nothing else.
